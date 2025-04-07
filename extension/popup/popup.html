@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartMate AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="../icons/icon48.png" alt="SmartMate AI Logo">
+        <h1>SmartMate AI</h1>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="quick-prompts">Quick Prompts</button>
+        <button class="tab-btn" data-tab="presets">Presets</button>
+        <button class="tab-btn" data-tab="settings">Settings</button>
+      </div>
+    </header>
+    
+    <main>
+      <!-- Quick Prompts Tab -->
+      <section id="quick-prompts" class="tab-content active">
+        <div class="prompt-container">
+          <textarea id="prompt-input" placeholder="Enter or paste text here..."></textarea>
+          <div class="actions">
+            <div class="action-buttons">
+              <button id="summarize-btn" class="action-btn">Summarize</button>
+              <button id="rewrite-btn" class="action-btn">Rewrite</button>
+              <button id="expand-btn" class="action-btn">Expand</button>
+              <button id="tone-btn" class="action-btn">Adjust Tone</button>
+            </div>
+            <div class="tone-selector" id="tone-selector" style="display: none;">
+              <select id="tone-select">
+                <option value="formal">Formal</option>
+                <option value="casual">Casual</option>
+                <option value="professional">Professional</option>
+                <option value="friendly">Friendly</option>
+                <option value="persuasive">Persuasive</option>
+                <option value="neutral">Neutral</option>
+              </select>
+              <button id="apply-tone-btn" class="small-btn">Apply</button>
+            </div>
+          </div>
+        </div>
+        <div class="result-container" style="display: none;">
+          <div class="result-header">
+            <h3>Result</h3>
+            <button id="copy-result-btn" class="small-btn">Copy</button>
+          </div>
+          <div id="result-content" class="result-content"></div>
+          <button id="back-btn" class="action-btn">Back</button>
+        </div>
+        <div class="loading" id="loading" style="display: none;">
+          <div class="spinner"></div>
+          <p>Processing with AI...</p>
+        </div>
+      </section>
+      
+      <!-- Presets Tab -->
+      <section id="presets" class="tab-content">
+        <div class="presets-header">
+          <h2>Your Prompt Presets</h2>
+          <button id="add-preset-btn" class="action-btn">Add New</button>
+        </div>
+        <div class="presets-list" id="presets-list">
+          <!-- Presets will be added here dynamically -->
+          <p class="empty-message">No presets yet. Create one to get started!</p>
+        </div>
+        <div class="preset-form" id="preset-form" style="display: none;">
+          <h3 id="preset-form-title">Add New Preset</h3>
+          <input type="text" id="preset-name" placeholder="Preset Name">
+          <select id="preset-type">
+            <option value="summarize">Summarize</option>
+            <option value="rewrite">Rewrite</option>
+            <option value="expand">Expand</option>
+            <option value="tone">Adjust Tone</option>
+          </select>
+          <textarea id="preset-prompt" placeholder="Custom prompt template..."></textarea>
+          <div class="form-actions">
+            <button id="save-preset-btn" class="action-btn">Save</button>
+            <button id="cancel-preset-btn" class="action-btn secondary">Cancel</button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Settings Tab -->
+      <section id="settings" class="tab-content">
+        <h2>Settings</h2>
+        <div class="settings-form">
+          <div class="setting-item">
+            <label for="default-tone">Default Tone</label>
+            <select id="default-tone">
+              <option value="formal">Formal</option>
+              <option value="casual">Casual</option>
+              <option value="professional">Professional</option>
+              <option value="friendly">Friendly</option>
+              <option value="persuasive">Persuasive</option>
+              <option value="neutral" selected>Neutral</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="default-language">Default Language</label>
+            <select id="default-language">
+              <option value="en" selected>English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="it">Italian</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="zh">Chinese</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">Korean</option>
+            </select>
+          </div>
+          <div class="setting-item checkbox">
+            <label for="save-history">
+              <input type="checkbox" id="save-history" checked>
+              Save Prompt History
+            </label>
+          </div>
+          <div class="setting-item">
+            <label for="theme">Theme</label>
+            <select id="theme">
+              <option value="light" selected>Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="api-url">API URL</label>
+            <input type="text" id="api-url" value="http://localhost:3000/api">
+          </div>
+          <button id="save-settings-btn" class="action-btn">Save Settings</button>
+        </div>
+        <div class="about">
+          <h3>About SmartMate AI</h3>
+          <p>Version 1.0.0</p>
+          <p>Your AI-Powered Browser Sidekick</p>
+          <p><a href="https://github.com/chirag127/SmartMate-AI" target="_blank">GitHub Repository</a></p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
