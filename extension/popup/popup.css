@@ -42,7 +42,7 @@ body {
     color: var(--text-color);
     font-size: 14px;
     line-height: 1.5;
-    width: 380px;
+    width: 480px;
     height: 500px;
     overflow: hidden;
 }
@@ -130,7 +130,7 @@ main {
 
 textarea {
     width: 100%;
-    height: 150px;
+    height: 180px;
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -149,8 +149,14 @@ textarea {
 
 .action-buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 8px;
+}
+
+@media (max-width: 450px) {
+    .action-buttons {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .action-btn {
@@ -197,6 +203,10 @@ textarea {
     display: flex;
     gap: 8px;
     align-items: center;
+    background-color: var(--secondary-color);
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 8px;
 }
 
 select {
@@ -354,6 +364,19 @@ select {
     margin-bottom: 24px;
 }
 
+@media (min-width: 450px) {
+    .settings-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .settings-form h3,
+    .settings-form .full-width {
+        grid-column: 1 / -1;
+    }
+}
+
 .settings-form h3 {
     margin-top: 8px;
     margin-bottom: 0;
@@ -404,8 +427,11 @@ select {
 
 .about {
     margin-top: 24px;
-    padding-top: 16px;
+    padding: 16px;
     border-top: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
 }
 
 .about h3 {
@@ -427,8 +453,15 @@ select {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     body {
         width: 100%;
+        min-width: 380px;
+    }
+}
+
+@media (min-width: 501px) {
+    body {
+        min-width: 480px;
     }
 }

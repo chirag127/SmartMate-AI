@@ -132,12 +132,12 @@
               <option value="system">System</option>
             </select>
           </div>
-          <div class="setting-item">
+          <div class="setting-item full-width">
             <label for="api-url">API URL</label>
-            <input type="text" id="api-url" value="https://smartmate-ai.onrender.com/api">
+            <input type="text" id="api-url" value="http://localhost:3000/api">
           </div>
 
-          <h3>Text-to-Speech Settings</h3>
+          <h3 class="full-width">Text-to-Speech Settings</h3>
           <div class="setting-item">
             <label for="tts-rate">Speech Rate</label>
             <div class="range-with-value">
@@ -159,8 +159,16 @@
               <!-- Voice options will be populated by JavaScript -->
             </select>
           </div>
+          <div class="setting-item checkbox">
+            <label for="tts-highlight">
+              <input type="checkbox" id="tts-highlight" checked>
+              Highlight words while speaking
+            </label>
+          </div>
 
-          <button id="save-settings-btn" class="action-btn">Save Settings</button>
+          <div class="full-width">
+            <button id="save-settings-btn" class="action-btn">Save Settings</button>
+          </div>
         </div>
         <div class="about">
           <h3>About SmartMate AI</h3>
