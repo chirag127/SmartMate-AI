@@ -1,8 +1,12 @@
-# SmartMate AI - Your AI-Powered Browser Sidekick
+# 📘 SmartMate AI - Your AI-Powered Browser Sidekick
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 SmartMate AI is a multi-browser compatible extension that enhances user productivity and personalization by integrating Gemini 2.0 Flash Lite for intelligent content generation, summarization, and contextual assistance directly in the browser.
+
+## 🚀 Live Demo
+
+Visit our [SmartMate AI Website](https://chirag127.github.io/SmartMate-AI/) to learn more about the extension and its features.
 
 ## 🚀 Features
 
@@ -12,6 +16,7 @@ SmartMate AI is a multi-browser compatible extension that enhances user producti
 -   **Quick Prompts**: Mini text editor with AI assistance for writing (e.g., emails, posts)
 -   **Settings Panel**: User settings: preferred tone, language, prompt history
 -   **Prompt Presets**: Save custom prompt templates (e.g., "Summarize like a tweet")
+-   **Text-to-Speech**: Listen to AI-generated content with adjustable speech rate, voice, and pitch settings, including word-by-word highlighting as text is being read
 
 ## 🛠️ Tech Stack
 
@@ -21,6 +26,7 @@ SmartMate AI is a multi-browser compatible extension that enhances user producti
     -   HTML/CSS/JavaScript
     -   WebExtension APIs for cross-browser compatibility
     -   Popup UI + content script integration
+    -   Web Speech API for text-to-speech functionality
 
 -   **ML & AI**
 
@@ -105,6 +111,10 @@ Access the extension settings by clicking the extension icon in your browser too
 -   Theme (light/dark/system)
 -   API URL (if you're hosting the backend on a different server)
 -   Save history preference
+
+## 📸 Screenshots
+
+![SmartMate AI in action](https://raw.githubusercontent.com/chirag127/SmartMate-AI/main/screenshots/smartmate-demo.png)
 
 ## 🧪 Testing
 

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartMate AI - Your AI-Powered Browser Sidekick</title>
+    <link rel="icon" href="extension/icons/icon16.png" type="image/png">
+    <style>
+        :root {
+            /* Color Variables */
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary-color: #1f2937;
+            --text-color: #f9fafb;
+            --text-muted: #9ca3af;
+            --bg-color: #111827;
+            --card-bg: #1e293b;
+            --border-color: #374151;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            text-decoration: none;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+            text-decoration: none;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(79, 70, 229, 0.2) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-right: var(--spacing-sm);
+            filter: drop-shadow(0 0 10px rgba(79, 70, 229, 0.5));
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-xs);
+            background: linear-gradient(to right, #4f46e5, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-lg);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: var(--spacing-xl) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: var(--spacing-xs) auto 0;
+            border-radius: var(--radius-sm);
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+            transition: transform var(--transition-normal);
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Installation Section */
+        .installation-steps {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+            margin-top: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: var(--spacing-md);
+            align-items: flex-start;
+        }
+        
+        .step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: var(--spacing-sm);
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        /* How to Use Section */
+        .usage-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow);
+            margin-top: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .usage-item {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .usage-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .usage-title {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--primary-color);
+        }
+        
+        /* Tech Stack Section */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+            justify-content: center;
+        }
+        
+        .tech-item {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-fast);
+        }
+        
+        .tech-item:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer Styles */
+        footer {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .btn-group {
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container animate">
+                <img src="extension/icons/icon128.png" alt="SmartMate AI Logo" class="logo">
+                <h1 class="title">SmartMate AI</h1>
+            </div>
+            <p class="tagline animate delay-1">Your AI-Powered Browser Sidekick for intelligent content generation, summarization, and contextual assistance.</p>
+            <div class="btn-group animate delay-2">
+                <a href="https://github.com/chirag127/SmartMate-AI" class="btn btn-primary" target="_blank">GitHub Repository</a>
+                <a href="privacy-policy.html" class="btn btn-secondary" target="_blank">Privacy Policy</a>
+            </div>
+        </div>
+    </header>
+    
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About SmartMate AI</h2>
+            <p>SmartMate AI is a multi-browser compatible extension that enhances your productivity and personalization by integrating Gemini 2.0 Flash Lite for intelligent content generation, summarization, and contextual assistance directly in your browser.</p>
+            <p>Whether you're a professional looking to streamline your writing, a student summarizing articles, or a content creator needing quick rewrites, SmartMate AI serves as your AI companion that works seamlessly across websites.</p>
+        </div>
+    </section>
+    
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Highlight-to-Act</h3>
+                    <p>Select any text on a webpage and SmartMate AI popup shows options to Summarize, Rewrite, Expand, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <h3 class="feature-title">Tone Tweaker</h3>
+                    <p>Adjust selected content to match a different tone: formal, casual, professional, friendly, persuasive, or neutral.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3 class="feature-title">On-Page Summarizer</h3>
+                    <p>Summarize full articles or sections with one click, getting the key points instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">Quick Prompts</h3>
+                    <p>Use the mini text editor with AI assistance for writing emails, posts, or any other content.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 class="feature-title">Settings Panel</h3>
+                    <p>Customize your experience with user settings for preferred tone, language, and prompt history.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔊</div>
+                    <h3 class="feature-title">Text-to-Speech</h3>
+                    <p>Listen to AI-generated content with adjustable speech rate, voice, and pitch settings, with word-by-word highlighting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="installation">
+        <div class="container">
+            <h2 class="section-title">Installation Instructions</h2>
+            <div class="installation-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Clone the Repository</h3>
+                        <p>Clone the SmartMate AI repository to your local machine:</p>
+                        <pre><code>git clone https://github.com/chirag127/SmartMate-AI.git</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Set Up the Backend (Optional)</h3>
+                        <p>If you want to run your own backend server:</p>
+                        <pre><code>cd SmartMate-AI
+npm install
+cp backend/.env.example backend/.env
+# Update the .env file with your Gemini API key
+npm start</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Load the Extension in Chrome/Edge/Brave</h3>
+                        <p>1. Open Chrome/Edge/Brave and navigate to <code>chrome://extensions/</code></p>
+                        <p>2. Enable "Developer mode" (toggle in the top-right corner)</p>
+                        <p>3. Click "Load unpacked" and select the <code>extension</code> folder from the project</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Load the Extension in Firefox</h3>
+                        <p>1. Open Firefox and navigate to <code>about:debugging#/runtime/this-firefox</code></p>
+                        <p>2. Click "Load Temporary Add-on..."</p>
+                        <p>3. Navigate to the project directory and select the <code>extension/manifest.json</code> file</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="usage">
+        <div class="container">
+            <h2 class="section-title">How to Use</h2>
+            <div class="usage-container">
+                <div class="usage-item">
+                    <h3 class="usage-title">Text Selection</h3>
+                    <p>Select any text on a webpage that you want to work with.</p>
+                </div>
+                <div class="usage-item">
+                    <h3 class="usage-title">Access SmartMate</h3>
+                    <p>Either click the SmartMate AI icon that appears near your selection, right-click and select SmartMate AI from the context menu, or click the extension icon in your browser toolbar.</p>
+                </div>
+                <div class="usage-item">
+                    <h3 class="usage-title">Choose Action</h3>
+                    <p>Select an action (Summarize, Rewrite, Expand, Adjust Tone) from the menu.</p>
+                </div>
+                <div class="usage-item">
+                    <h3 class="usage-title">View Result</h3>
+                    <p>The AI-processed text will appear in a modal. You can listen to the text with the text-to-speech feature, which highlights words as they're spoken.</p>
+                </div>
+                <div class="usage-item">
+                    <h3 class="usage-title">Apply or Copy</h3>
+                    <p>Copy the result or replace the selected text directly on the webpage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">JavaScript</div>
+                <div class="tech-item">HTML/CSS</div>
+                <div class="tech-item">Manifest V3</div>
+                <div class="tech-item">WebExtension APIs</div>
+                <div class="tech-item">Gemini 2.0 Flash Lite</div>
+                <div class="tech-item">Express.js</div>
+                <div class="tech-item">MongoDB</div>
+                <div class="tech-item">Web Speech API</div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/chirag127/SmartMate-AI" target="_blank">GitHub Repository</a>
+                <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+            </div>
+            <p class="copyright">© 2024 SmartMate AI. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Add animation classes when elements come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.feature-card, .section-title, .installation-steps, .usage-container, .tech-stack').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

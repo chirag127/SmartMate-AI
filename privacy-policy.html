@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - SmartMate AI</title>
+    <link rel="icon" href="extension/icons/icon16.png" type="image/png">
+    <style>
+        :root {
+            /* Color Variables */
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary-color: #1f2937;
+            --text-color: #f9fafb;
+            --text-muted: #9ca3af;
+            --bg-color: #111827;
+            --card-bg: #1e293b;
+            --border-color: #374151;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            text-decoration: none;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .back-link {
+            margin-bottom: var(--spacing-md);
+            display: inline-block;
+        }
+        
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .last-updated {
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        /* Content Styles */
+        .content {
+            padding: var(--spacing-xl) 0;
+        }
+        
+        .section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: var(--spacing-xs);
+        }
+        
+        .section p {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section ul {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-lg);
+        }
+        
+        .section li {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .highlight {
+            background-color: rgba(79, 70, 229, 0.1);
+            padding: 2px 5px;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .permission-item {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--border-color);
+        }
+        
+        .permission-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        /* Footer Styles */
+        footer {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Home
+            </a>
+            <h1 class="title">Privacy Policy</h1>
+            <p class="last-updated">Last Updated: June 15, 2024</p>
+        </div>
+    </header>
+    
+    <div class="content">
+        <div class="container">
+            <div class="section animate">
+                <h2 class="section-title">Introduction</h2>
+                <p>This Privacy Policy explains how SmartMate AI ("we", "our", or "us") collects, uses, and protects your information when you use our browser extension. We are committed to ensuring the privacy and security of your data.</p>
+                <p>By using SmartMate AI, you agree to the collection and use of information in accordance with this policy. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">Required Permissions</h2>
+                <p>SmartMate AI requires certain permissions to function properly. We only request permissions that are necessary for the extension's core functionality:</p>
+                
+                <div class="permission-item">
+                    <div class="permission-name">storage</div>
+                    <p>This permission allows us to save your preferences and settings locally in your browser. This includes your preferred tone, language settings, and other customization options.</p>
+                </div>
+                
+                <div class="permission-item">
+                    <div class="permission-name">activeTab</div>
+                    <p>This permission allows the extension to interact with the currently active tab. It's necessary for detecting text selection and displaying the SmartMate AI popup when you select text on a webpage.</p>
+                </div>
+                
+                <div class="permission-item">
+                    <div class="permission-name">contextMenus</div>
+                    <p>This permission allows us to add SmartMate AI options to your browser's right-click context menu, making it easier to access our features when you select text.</p>
+                </div>
+                
+                <div class="permission-item">
+                    <div class="permission-name">host_permissions</div>
+                    <p>This permission is required to communicate with our backend API server, which processes your requests and interacts with the Gemini AI model. We only access the specific API endpoint needed for the extension's functionality.</p>
+                </div>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">Information We Collect</h2>
+                <p>SmartMate AI collects the following information:</p>
+                <ul>
+                    <li><strong>User Preferences:</strong> We store your settings and preferences (such as preferred tone, language, and theme) locally in your browser using the storage API.</li>
+                    <li><strong>Selected Text:</strong> When you select text and use our features, the selected text is temporarily processed to provide the requested functionality (summarization, rewriting, etc.).</li>
+                    <li><strong>Usage Data:</strong> Basic anonymous usage data may be collected to improve the extension's functionality and user experience.</li>
+                </ul>
+                
+                <p><strong>What We Do NOT Collect:</strong></p>
+                <ul>
+                    <li>We do <span class="highlight">NOT</span> collect or store your browsing history.</li>
+                    <li>We do <span class="highlight">NOT</span> collect personally identifiable information (PII).</li>
+                    <li>We do <span class="highlight">NOT</span> track your browsing activity across websites.</li>
+                    <li>We do <span class="highlight">NOT</span> store the content of your text selections or AI-generated results beyond the current session.</li>
+                </ul>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">How We Use Your Information</h2>
+                <p>The information we collect is used solely for the following purposes:</p>
+                <ul>
+                    <li>To provide and maintain the core functionality of SmartMate AI.</li>
+                    <li>To personalize your experience based on your saved preferences.</li>
+                    <li>To improve the extension based on usage patterns and feedback.</li>
+                    <li>To process your text selections and generate AI-powered responses.</li>
+                </ul>
+                
+                <p>We do not sell, trade, or otherwise transfer your information to third parties for marketing or advertising purposes.</p>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">Data Storage & Security</h2>
+                <p>Your preferences and settings are stored locally in your browser using the browser's storage API. This data remains on your device and is not transmitted to our servers unless necessary for providing the requested functionality.</p>
+                
+                <p>When you use our AI features, your selected text is temporarily processed on our secure backend server and/or through the Gemini AI API. We implement appropriate security measures to protect against unauthorized access, alteration, disclosure, or destruction of your data.</p>
+                
+                <p>All communication between the extension and our backend is encrypted using HTTPS to ensure the security of your data in transit.</p>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">Third-Party Services</h2>
+                <p>SmartMate AI uses the following third-party services:</p>
+                <ul>
+                    <li><strong>Gemini 2.0 Flash Lite:</strong> We use Google's Gemini AI model to process your text selections and generate AI-powered responses. Your data is processed in accordance with <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</li>
+                    <li><strong>MongoDB (Optional):</strong> If you choose to create an account, your preferences may be stored in our MongoDB database. This is entirely optional and not required for the core functionality of the extension.</li>
+                </ul>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">User Rights</h2>
+                <p>You have the following rights regarding your data:</p>
+                <ul>
+                    <li><strong>Access:</strong> You can access your locally stored preferences through the extension's settings panel.</li>
+                    <li><strong>Modification:</strong> You can modify your preferences at any time through the settings panel.</li>
+                    <li><strong>Deletion:</strong> You can clear all locally stored data by uninstalling the extension or clearing your browser's storage for the extension.</li>
+                </ul>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">Changes to This Privacy Policy</h2>
+                <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top.</p>
+                <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+            </div>
+            
+            <div class="section animate">
+                <h2 class="section-title">Contact Information</h2>
+                <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us by:</p>
+                <ul>
+                    <li>Opening an issue on our <a href="https://github.com/chirag127/SmartMate-AI/issues" target="_blank">GitHub repository</a></li>
+                    <li>Contacting the repository owner directly through GitHub</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="https://github.com/chirag127/SmartMate-AI" target="_blank">GitHub Repository</a>
+            </div>
+            <p class="copyright">© 2024 SmartMate AI. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Add animation classes when elements come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.section').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
