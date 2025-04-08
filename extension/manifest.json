@@ -9,7 +9,7 @@
     "activeTab"
   ],
   "host_permissions": [
-    "http://localhost:3000/*"
+    "https://smartmate-ai.onrender.com/*"
   ],
   "action": {
     "default_popup": "popup/popup.html",
@@ -26,9 +26,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content/content.js"],
-      "css": ["content/content.css"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/content.js"
+      ],
+      "css": [
+        "content/content.css"
+      ]
     }
   ],
   "background": {
@@ -45,8 +51,12 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["icons/*"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "icons/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "browser_specific_settings": {

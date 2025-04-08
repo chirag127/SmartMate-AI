@@ -42,7 +42,7 @@ let settings = {
     defaultLanguage: "en",
     saveHistory: true,
     theme: "light",
-    apiUrl: "http://localhost:3000/api",
+    apiUrl: "https://smartmate-ai.onrender.com/api",
     tts: {
         rate: 1.0,
         pitch: 1.0,
@@ -151,7 +151,8 @@ function loadSettings() {
         defaultLanguage.value = settings.defaultLanguage || "en";
         saveHistory.checked = settings.saveHistory !== false;
         theme.value = settings.theme || "light";
-        apiUrl.value = settings.apiUrl || "http://localhost:3000/api";
+        apiUrl.value =
+            settings.apiUrl || "https://smartmate-ai.onrender.com/api";
 
         // Apply TTS settings
         if (settings.tts) {

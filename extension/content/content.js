@@ -6,7 +6,7 @@ let fab = null;
 let menu = null;
 let modal = null;
 let settings = {
-    apiUrl: "http://localhost:3000/api",
+    apiUrl: "https://smartmate-ai.onrender.com/api",
     defaultTone: "neutral",
     tts: {
         rate: 1.0,
