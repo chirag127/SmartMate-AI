@@ -1,45 +1,62 @@
 // SmartMate AI Content Script
 
 // State
-let selectedText = "";
+let selectedText = '';
 let fab = null;
 let menu = null;
 let modal = null;
 let settings = {
-    apiUrl: "https://smartmate-ai.onrender.com/api",
-    defaultTone: "neutral",
-    tts: {
-        rate: 1.0,
-        pitch: 1.0,
-        voice: "default",
-    },
+  defaultTone: 'neutral',
+  tts: {
+    rate: 1.0,
+    pitch: 1.0,
+    voice: 'default',
+  },
 };
 
 // Speech synthesis variables
 let speechSynthesis = window.speechSynthesis;
 let currentUtterance = null;
+let isOnline = navigator.onLine;
 
 // Initialize
 (function () {
-    // Load settings
-    chrome.storage.local.get(["settings"], function (result) {
-        if (result.settings) {
-            settings = JSON.parse(result.settings);
-        }
-    });
-
-    // Listen for text selection
-    document.addEventListener("mouseup", handleTextSelection);
-
-    // Listen for messages from background script
-    chrome.runtime.onMessage.addListener(handleMessage);
-
-    // Initialize speech synthesis
-    if ("speechSynthesis" in window) {
-        // Preload voices
-        speechSynthesis.getVoices();
+  // Load settings from sync storage
+  chrome.storage.sync.get(['settings'], function (result) {
+    if (result.settings) {
+      settings = result.settings;
     }
+  });
+
+  // Listen for text selection
+  document.addEventListener('mouseup', handleTextSelection);
+
+  // Listen for messages from background script
+  chrome.runtime.onMessage.addListener(handleMessage);
+
+  // Initialize speech synthesis
+  if ('speechSynthesis' in window) {
+    // Preload voices
+    speechSynthesis.getVoices();
+  }
+
+  // Setup offline detection
+  setupOfflineDetection();
 })();
+
+// Setup offline detection
+function setupOfflineDetection() {
+  window.addEventListener('online', () => {
+    isOnline = true;
+    console.log('SmartMate AI: Online');
+  });
+
+  window.addEventListener('offline', () => {
+    isOnline = false;
+    console.log('SmartMate AI: Offline');
+    showErrorModal('You are currently offline. Please check your internet connection.');
+  });
+}
 
 // Handle text selection
 function handleTextSelection(event) {
@@ -101,11 +118,17 @@ function hideFab() {
 
 // Show menu
 function showMenu(event) {
-    // Prevent default action
-    event.stopPropagation();
+  // Prevent default action
+  event.stopPropagation();
 
-    // Remove existing menu if any
-    hideMenu();
+  // Check if online
+  if (!isOnline) {
+    showErrorModal('You are currently offline. Please check your internet connection.');
+    return;
+  }
+
+  // Remove existing menu if any
+  hideMenu();
 
     // Create menu
     menu = document.createElement("div");
@@ -234,44 +257,35 @@ function showToneSelector() {
 
 // Process text
 function processText(action, tone = settings.defaultTone) {
-    // Show loading modal
-    showLoadingModal(action);
+  // Check if online
+  if (!isOnline) {
+    showErrorModal('You are currently offline. Please check your internet connection.');
+    return;
+  }
 
-    // Get user ID from storage
-    chrome.storage.local.get(["userId"], function (result) {
-        let userId = result.userId;
+  // Show loading modal
+  showLoadingModal(action);
 
-        // If no user ID, generate one
-        if (!userId) {
-            userId =
-                "user_" +
-                Date.now().toString(36) +
-                Math.random().toString(36).substr(2, 9);
-            chrome.storage.local.set({ userId });
-        }
-
-        // Send message to background script
-        chrome.runtime.sendMessage(
-            {
-                action: "processText",
-                data: {
-                    text: selectedText,
-                    action,
-                    tone,
-                    userId,
-                },
-            },
-            function (response) {
-                if (response && response.success) {
-                    showResultModal(action, response.data);
-                } else {
-                    showErrorModal(
-                        response ? response.message : "Failed to process text"
-                    );
-                }
-            }
+  // Send message to background script
+  chrome.runtime.sendMessage(
+    {
+      action: 'processText',
+      data: {
+        text: selectedText,
+        action,
+        tone,
+      },
+    },
+    function (response) {
+      if (response && response.success) {
+        showResultModal(action, response.data);
+      } else {
+        showErrorModal(
+          response ? response.message : 'Failed to process text'
         );
-    });
+      }
+    }
+  );
 }
 
 // Show loading modal
@@ -692,9 +706,16 @@ function populateVoiceOptions(selectElement) {
 
 // Handle messages from background script
 function handleMessage(message, sender, sendResponse) {
-    if (message.action === "contextMenuClicked") {
-        processText(message.data.menuItemId);
+  if (message.action === 'contextMenuClicked') {
+    const action = message.data.menuItemId;
+    if (action === 'tone-adjust') {
+      showToneSelector();
+    } else {
+      processText(action);
     }
+  } else if (message.action === 'showError') {
+    showErrorModal(message.data.message);
+  }
 
-    return true;
+  return true;
 }

@@ -8,9 +8,6 @@
     "storage",
     "activeTab"
   ],
-  "host_permissions": [
-    "https://smartmate-ai.onrender.com/*"
-  ],
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
@@ -38,7 +35,8 @@
     }
   ],
   "background": {
-    "service_worker": "background/background.js"
+    "service_worker": "background/background.js",
+    "type": "module"
   },
   "commands": {
     "_execute_action": {

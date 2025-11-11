@@ -1,20 +1,31 @@
-# Agent Instructions for SmartMate AI
+# Agent Guide
 
 ## Commands
 
-**Setup**: `npm install`  
-**Build**: `npm run build`  
-**Lint**: `npm run lint`  
+**Setup**: `npm install`
+
+**Build**: `npm run build`
+
+**Lint**: `npm run lint`
+
 **Test**: `npm test`
 
-## Tech Stack & Architecture
+**Dev Server**: `npm run dev`
 
-- **Frontend**: Manifest V3 browser extension (HTML/CSS/JS), WebExtension APIs, Web Speech API
-- **AI**: Cerebras API for ultra-fast inference (direct browser-to-API communication)
-- **Structure**: `/extension` (popup, background, content scripts), `/scripts` (build tools)
-- **Storage**: Browser local storage for settings and API key management
+## Tech Stack
 
-## Code Style
+- **Extension**: Manifest V3, HTML/CSS/JS, WebExtension APIs, Web Speech API, Gemini 2.0 Flash Lite via Google AI SDK (direct browser-to-API communication)
+- **Backend**: Express.js, MongoDB (optional), Gemini 2.0 Flash Lite via Google AI SDK
+- **Testing**: Jest, Supertest
+- **Storage**: chrome.storage.sync for cross-device synchronization
 
-- **Linting**: ESLint (2-space indent, single quotes, semicolons required)
-- **Conventions**: Follow ESLint config, write clear commit messages, test new features
+## Structure
+
+- `extension/`: Browser extension (popup, content scripts, background, manifest)
+- `backend/`: Express server (routes, controllers, models, middleware, utils)
+- `scripts/`: Build scripts (e.g., icon generation)
+
+## Style
+
+- 2-space indentation, single quotes, semicolons (enforced by ESLint)
+- ES2021 syntax, Unix line endings

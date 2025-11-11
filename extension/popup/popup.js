@@ -27,7 +27,7 @@ const defaultTone = document.getElementById("default-tone");
 const defaultLanguage = document.getElementById("default-language");
 const saveHistory = document.getElementById("save-history");
 const theme = document.getElementById("theme");
-const apiUrl = document.getElementById("api-url");
+const apiKey = document.getElementById("api-key");
 const ttsRate = document.getElementById("tts-rate");
 const ttsRateValue = document.getElementById("tts-rate-value");
 const ttsPitch = document.getElementById("tts-pitch");
@@ -38,33 +38,27 @@ const saveSettingsBtn = document.getElementById("save-settings-btn");
 // State
 let currentPresetId = null;
 let settings = {
-    defaultTone: "neutral",
-    defaultLanguage: "en",
-    saveHistory: true,
-    theme: "light",
-    apiUrl: "https://smartmate-ai.onrender.com/api",
-    tts: {
-        rate: 1.0,
-        pitch: 1.0,
-        voice: "default",
-    },
+  defaultTone: 'neutral',
+  defaultLanguage: 'en',
+  saveHistory: true,
+  theme: 'light',
+  tts: {
+    rate: 1.0,
+    pitch: 1.0,
+    voice: 'default',
+  },
 };
 
 // Initialize
-document.addEventListener("DOMContentLoaded", () => {
-    // Load settings
-    loadSettings();
+document.addEventListener('DOMContentLoaded', () => {
+  // Load settings
+  loadSettings();
 
-    // Load presets
-    loadPresets();
+  // Load presets
+  loadPresets();
 
-    // Apply theme
-    applyTheme();
-
-    // Generate a random user ID if not exists
-    if (!localStorage.getItem("userId")) {
-        localStorage.setItem("userId", generateUserId());
-    }
+  // Apply theme
+  applyTheme();
 });
 
 // Tab switching
@@ -142,73 +136,75 @@ saveSettingsBtn.addEventListener("click", () => {
 
 // Functions
 function loadSettings() {
-    const savedSettings = localStorage.getItem("settings");
-    if (savedSettings) {
-        settings = JSON.parse(savedSettings);
-
-        // Apply settings to form
-        defaultTone.value = settings.defaultTone || "neutral";
-        defaultLanguage.value = settings.defaultLanguage || "en";
-        saveHistory.checked = settings.saveHistory !== false;
-        theme.value = settings.theme || "light";
-        apiUrl.value =
-            settings.apiUrl || "https://smartmate-ai.onrender.com/api";
-
-        // Apply TTS settings
-        if (settings.tts) {
-            ttsRate.value = settings.tts.rate || 1.0;
-            ttsRateValue.textContent = settings.tts.rate || 1.0;
-            ttsPitch.value = settings.tts.pitch || 1.0;
-            ttsPitchValue.textContent = settings.tts.pitch || 1.0;
-
-            // Populate available voices
-            populateVoices();
-
-            // Set selected voice if available
-            if (settings.tts.voice && settings.tts.voice !== "default") {
-                // Find the voice in the list
-                const voiceOption = Array.from(ttsVoice.options).find(
-                    (option) => option.value === settings.tts.voice
-                );
-                if (voiceOption) {
-                    ttsVoice.value = settings.tts.voice;
-                }
-            }
-        }
-    } else {
-        // Populate available voices with default settings
-        populateVoices();
+  // Load from sync storage
+  chrome.storage.sync.get(['settings', 'apiKey'], (result) => {
+    if (result.settings) {
+      settings = result.settings;
     }
 
-    // Add event listeners for range inputs
-    ttsRate.addEventListener("input", () => {
-        ttsRateValue.textContent = ttsRate.value;
-    });
+    // Apply settings to form
+    defaultTone.value = settings.defaultTone || 'neutral';
+    defaultLanguage.value = settings.defaultLanguage || 'en';
+    saveHistory.checked = settings.saveHistory !== false;
+    theme.value = settings.theme || 'light';
+    
+    if (result.apiKey) {
+      apiKey.value = result.apiKey;
+    }
 
-    ttsPitch.addEventListener("input", () => {
-        ttsPitchValue.textContent = ttsPitch.value;
-    });
+    // Apply TTS settings
+    if (settings.tts) {
+      ttsRate.value = settings.tts.rate || 1.0;
+      ttsRateValue.textContent = settings.tts.rate || 1.0;
+      ttsPitch.value = settings.tts.pitch || 1.0;
+      ttsPitchValue.textContent = settings.tts.pitch || 1.0;
+
+      // Populate available voices
+      populateVoices();
+
+      // Set selected voice if available
+      if (settings.tts.voice && settings.tts.voice !== 'default') {
+        // Find the voice in the list
+        const voiceOption = Array.from(ttsVoice.options).find(
+          (option) => option.value === settings.tts.voice
+        );
+        if (voiceOption) {
+          ttsVoice.value = settings.tts.voice;
+        }
+      }
+    }
+  });
+
+  // Add event listeners for range inputs
+  ttsRate.addEventListener('input', () => {
+    ttsRateValue.textContent = ttsRate.value;
+  });
+
+  ttsPitch.addEventListener('input', () => {
+    ttsPitchValue.textContent = ttsPitch.value;
+  });
 }
 
 function saveSettings() {
-    settings = {
-        defaultTone: defaultTone.value,
-        defaultLanguage: defaultLanguage.value,
-        saveHistory: saveHistory.checked,
-        theme: theme.value,
-        apiUrl: apiUrl.value,
-        tts: {
-            rate: parseFloat(ttsRate.value),
-            pitch: parseFloat(ttsPitch.value),
-            voice: ttsVoice.value,
-        },
-    };
+  settings = {
+    defaultTone: defaultTone.value,
+    defaultLanguage: defaultLanguage.value,
+    saveHistory: saveHistory.checked,
+    theme: theme.value,
+    tts: {
+      rate: parseFloat(ttsRate.value),
+      pitch: parseFloat(ttsPitch.value),
+      voice: ttsVoice.value,
+    },
+  };
 
-    localStorage.setItem("settings", JSON.stringify(settings));
+  // Save to sync storage for cross-device sync
+  chrome.storage.sync.set({ 
+    settings: settings,
+    apiKey: apiKey.value 
+  });
 
-    // Save settings to chrome.storage.local for use in content script
-    chrome.storage.local.set({ settings: JSON.stringify(settings) });
-    applyTheme();
+  applyTheme();
 
     // Show success message
     const successMessage = document.createElement("div");
@@ -243,46 +239,49 @@ function applyTheme() {
 }
 
 function loadPresets() {
-    const presets = JSON.parse(localStorage.getItem("presets") || "[]");
+  // Load from sync storage
+  chrome.storage.sync.get(['presets'], (result) => {
+    const presets = result.presets || [];
 
     if (presets.length === 0) {
-        presetsList.innerHTML =
-            '<p class="empty-message">No presets yet. Create one to get started!</p>';
-        return;
+      presetsList.innerHTML =
+        '<p class="empty-message">No presets yet. Create one to get started!</p>';
+      return;
     }
 
-    presetsList.innerHTML = "";
+    presetsList.innerHTML = '';
 
     presets.forEach((preset) => {
-        const presetItem = document.createElement("div");
-        presetItem.className = "preset-item";
-        presetItem.innerHTML = `
-      <div class="preset-header">
-        <span class="preset-title">${preset.name}</span>
-        <div class="preset-actions">
-          <button class="small-btn edit-preset" data-id="${preset.id}">Edit</button>
-          <button class="small-btn delete-preset" data-id="${preset.id}">Delete</button>
+      const presetItem = document.createElement('div');
+      presetItem.className = 'preset-item';
+      presetItem.innerHTML = `
+        <div class="preset-header">
+          <span class="preset-title">${preset.name}</span>
+          <div class="preset-actions">
+            <button class="small-btn edit-preset" data-id="${preset.id}">Edit</button>
+            <button class="small-btn delete-preset" data-id="${preset.id}">Delete</button>
+          </div>
         </div>
-      </div>
-      <span class="preset-type">${preset.type}</span>
-      <p class="preset-prompt">${preset.prompt}</p>
-    `;
+        <span class="preset-type">${preset.type}</span>
+        <p class="preset-prompt">${preset.prompt}</p>
+      `;
 
-        presetsList.appendChild(presetItem);
+      presetsList.appendChild(presetItem);
     });
 
     // Add event listeners to edit and delete buttons
-    document.querySelectorAll(".edit-preset").forEach((button) => {
-        button.addEventListener("click", () => {
-            editPreset(button.dataset.id);
-        });
+    document.querySelectorAll('.edit-preset').forEach((button) => {
+      button.addEventListener('click', () => {
+        editPreset(button.dataset.id);
+      });
     });
 
-    document.querySelectorAll(".delete-preset").forEach((button) => {
-        button.addEventListener("click", () => {
-            deletePreset(button.dataset.id);
-        });
+    document.querySelectorAll('.delete-preset').forEach((button) => {
+      button.addEventListener('click', () => {
+        deletePreset(button.dataset.id);
+      });
     });
+  });
 }
 
 function showPresetForm(preset = null) {
@@ -312,108 +311,123 @@ function hidePresetForm() {
 }
 
 function savePreset() {
-    const name = presetName.value.trim();
-    const type = presetType.value;
-    const prompt = presetPrompt.value.trim();
+  const name = presetName.value.trim();
+  const type = presetType.value;
+  const prompt = presetPrompt.value.trim();
 
-    if (!name || !prompt) {
-        alert("Please fill in all fields");
-        return;
-    }
+  if (!name || !prompt) {
+    alert('Please fill in all fields');
+    return;
+  }
 
-    const presets = JSON.parse(localStorage.getItem("presets") || "[]");
+  // Get presets from sync storage
+  chrome.storage.sync.get(['presets'], (result) => {
+    const presets = result.presets || [];
 
     if (currentPresetId) {
-        // Edit existing preset
-        const index = presets.findIndex((p) => p.id === currentPresetId);
-        if (index !== -1) {
-            presets[index] = {
-                id: currentPresetId,
-                name,
-                type,
-                prompt,
-            };
-        }
+      // Edit existing preset
+      const index = presets.findIndex((p) => p.id === currentPresetId);
+      if (index !== -1) {
+        presets[index] = {
+          id: currentPresetId,
+          name,
+          type,
+          prompt,
+        };
+      }
     } else {
-        // Add new preset
-        presets.push({
-            id: generateId(),
-            name,
-            type,
-            prompt,
-        });
+      // Add new preset
+      presets.push({
+        id: generateId(),
+        name,
+        type,
+        prompt,
+      });
     }
 
-    localStorage.setItem("presets", JSON.stringify(presets));
-    loadPresets();
-    hidePresetForm();
+    // Save to sync storage
+    chrome.storage.sync.set({ presets }, () => {
+      loadPresets();
+      hidePresetForm();
+    });
+  });
 }
 
 function editPreset(id) {
-    const presets = JSON.parse(localStorage.getItem("presets") || "[]");
+  chrome.storage.sync.get(['presets'], (result) => {
+    const presets = result.presets || [];
     const preset = presets.find((p) => p.id === id);
 
     if (preset) {
-        showPresetForm(preset);
+      showPresetForm(preset);
     }
+  });
 }
 
 function deletePreset(id) {
-    if (confirm("Are you sure you want to delete this preset?")) {
-        const presets = JSON.parse(localStorage.getItem("presets") || "[]");
-        const filteredPresets = presets.filter((p) => p.id !== id);
+  if (confirm('Are you sure you want to delete this preset?')) {
+    chrome.storage.sync.get(['presets'], (result) => {
+      const presets = result.presets || [];
+      const filteredPresets = presets.filter((p) => p.id !== id);
 
-        localStorage.setItem("presets", JSON.stringify(filteredPresets));
+      chrome.storage.sync.set({ presets: filteredPresets }, () => {
         loadPresets();
-    }
+      });
+    });
+  }
 }
 
 async function processText(action, tone = settings.defaultTone) {
-    const text = promptInput.value.trim();
+  const text = promptInput.value.trim();
 
-    if (!text) {
-        alert("Please enter some text");
-        return;
-    }
+  if (!text) {
+    alert('Please enter some text');
+    return;
+  }
 
-    // Show loading
-    loading.style.display = "flex";
+  // Check if online
+  if (!navigator.onLine) {
+    alert('You are currently offline. Please check your internet connection.');
+    return;
+  }
 
-    try {
-        const response = await fetch(`${settings.apiUrl}/${action}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                text,
-                tone,
-                userId: localStorage.getItem("userId"),
-            }),
-        });
+  // Show loading
+  loading.style.display = 'flex';
 
-        const data = await response.json();
+  try {
+    // Send message to background script
+    chrome.runtime.sendMessage(
+      {
+        action: 'processText',
+        data: {
+          text,
+          action,
+          tone,
+        },
+      },
+      (response) => {
+        loading.style.display = 'none';
+        
+        if (response && response.success) {
+          // Show result
+          resultContent.textContent = response.data;
+          document.querySelector('.prompt-container').style.display = 'none';
+          resultContainer.style.display = 'flex';
 
-        if (!data.success) {
-            throw new Error(data.message || "Failed to process text");
+          // Save to history if enabled
+          if (settings.saveHistory) {
+            saveToHistory(action, text, response.data);
+          }
+        } else {
+          alert(`Error: ${response ? response.message : 'Failed to process text'}`);
         }
-
-        // Show result
-        resultContent.textContent = data.data;
-        document.querySelector(".prompt-container").style.display = "none";
-        resultContainer.style.display = "flex";
-
-        // Save to history if enabled
-        if (settings.saveHistory) {
-            saveToHistory(action, text, data.data);
-        }
-    } catch (error) {
-        console.error("Error processing text:", error);
-        alert(`Error: ${error.message}`);
-    } finally {
-        // Hide loading
-        loading.style.display = "none";
-    }
+      }
+    );
+  } catch (error) {
+    console.error('Error processing text:', error);
+    alert(`Error: ${error.message}`);
+    loading.style.display = 'none';
+  }
 }
 
 function saveToHistory(action, input, output) {
