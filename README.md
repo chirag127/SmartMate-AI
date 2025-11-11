@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-SmartMate AI is a multi-browser compatible extension that enhances user productivity and personalization by integrating Gemini 2.0 Flash Lite for intelligent content generation, summarization, and contextual assistance directly in the browser.
+SmartMate AI is a multi-browser compatible extension that enhances user productivity and personalization by integrating Cerebras AI for intelligent content generation, summarization, and contextual assistance directly in the browser.
 
 ## 🚀 Live Demo
 
@@ -18,78 +18,103 @@ Visit our [SmartMate AI Website](https://chirag127.github.io/SmartMate-AI/) to l
 -   **Prompt Presets**: Save custom prompt templates (e.g., "Summarize like a tweet")
 -   **Text-to-Speech**: Listen to AI-generated content with adjustable speech rate, voice, and pitch settings, including word-by-word highlighting as text is being read
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
--   **Frontend (Browser Extension)**
+### Client-Side Architecture
 
-    -   Manifest V3
+SmartMate AI now operates entirely client-side with **no backend required**, providing:
+-   **Enhanced Privacy**: All AI processing happens directly between your browser and Cerebras API
+-   **Zero Latency**: No intermediate server hops
+-   **Simplified Deployment**: Just load the extension and add your API key
+-   **Reduced Costs**: No backend hosting required
+
+### Technology Components
+
+-   **Browser Extension**
+    -   Manifest V3 for modern browser compatibility
     -   HTML/CSS/JavaScript
-    -   WebExtension APIs for cross-browser compatibility
+    -   WebExtension APIs for cross-browser support (Chrome, Edge, Brave, Firefox)
     -   Popup UI + content script integration
     -   Web Speech API for text-to-speech functionality
+    -   Local storage for user preferences and API key management
 
--   **ML & AI**
-
-    -   Gemini 2.0 Flash Lite (via Google AI JavaScript SDK)
-    -   Tasks: summarization, paraphrasing, tone adjustment, etc.
-
--   **Backend**
-    -   Express.js
-    -   API endpoints for AI prompt forwarding to Gemini
-    -   User settings and tone profiles
-    -   MongoDB for storing user preferences and logs
+-   **AI Integration**
+    -   **Cerebras API** (direct browser-to-API communication)
+    -   Ultra-fast inference powered by Cerebras hardware
+    -   Tasks: summarization, paraphrasing, tone adjustment, content generation
+    -   Secure API key storage in browser's local storage
 
 ## 📋 Requirements
 
--   Node.js (v18 or higher)
--   MongoDB (optional, for user data storage)
--   Google AI API key (for Gemini 2.0 Flash Lite)
+-   Modern web browser (Chrome, Edge, Brave, or Firefox)
+-   Cerebras API key ([Get one here](https://cerebras.ai/))
+-   Node.js (v18 or higher) - only for development/building
 
 ## 🔧 Installation
 
-### Backend Setup
+### 1. Get Your Cerebras API Key
 
-1. Clone the repository:
+1. Visit [Cerebras Cloud](https://cerebras.ai/) and sign up for an account
+2. Navigate to your API dashboard and generate a new API key
+3. Keep this key secure - you'll need it in step 3
 
+### 2. Install the Extension
+
+#### Chrome / Edge / Brave
+
+1. Clone or download this repository:
     ```bash
     git clone https://github.com/chirag127/SmartMate-AI.git
     cd SmartMate-AI
     ```
 
-2. Install dependencies:
-
+2. Install dependencies and build:
     ```bash
     npm install
+    npm run build
     ```
 
-3. Create a `.env` file in the backend directory (copy from `.env.example`):
+3. Open your browser and navigate to:
+    - Chrome: `chrome://extensions/`
+    - Edge: `edge://extensions/`
+    - Brave: `brave://extensions/`
 
-    ```bash
-    cp backend/.env.example backend/.env
-    ```
+4. Enable "Developer mode" (toggle in the top-right corner)
 
-4. Update the `.env` file with your Gemini API key and MongoDB URI (if using MongoDB).
+5. Click "Load unpacked" and select the `extension` folder from the project
 
-5. Start the backend server:
-    ```bash
-    npm start
-    ```
-
-### Browser Extension Setup
-
-#### Chrome / Edge / Brave
-
-1. Open Chrome/Edge/Brave and navigate to `chrome://extensions/`
-2. Enable "Developer mode" (toggle in the top-right corner)
-3. Click "Load unpacked" and select the `extension` folder from the project
-4. The SmartMate AI extension should now be installed and visible in your browser toolbar
+6. The SmartMate AI extension should now be installed and visible in your browser toolbar
 
 #### Firefox
 
-1. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
-2. Click "Load Temporary Add-on..."
-3. Navigate to the project directory and select the `extension/manifest.json` file
-4. The SmartMate AI extension should now be installed and visible in your browser toolbar
+1. Clone or download this repository:
+    ```bash
+    git clone https://github.com/chirag127/SmartMate-AI.git
+    cd SmartMate-AI
+    ```
+
+2. Install dependencies and build:
+    ```bash
+    npm install
+    npm run build
+    ```
+
+3. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
+
+4. Click "Load Temporary Add-on..."
+
+5. Navigate to the project directory and select the `extension/manifest.json` file
+
+6. The SmartMate AI extension should now be installed and visible in your browser toolbar
+
+### 3. Configure Your API Key
+
+1. Click the SmartMate AI extension icon in your browser toolbar
+2. Navigate to the "Settings" tab
+3. Enter your Cerebras API key in the API Key field
+4. Click "Save" to store your key securely in the browser
+
+**Note**: Your API key is stored locally in your browser and is never sent to any server except Cerebras API for processing your requests.
 
 ## 🔍 Usage
 
@@ -106,15 +131,23 @@ Visit our [SmartMate AI Website](https://chirag127.github.io/SmartMate-AI/) to l
 
 Access the extension settings by clicking the extension icon in your browser toolbar and selecting the "Settings" tab. Here you can configure:
 
--   Default tone for text processing
--   Default language
--   Theme (light/dark/system)
--   API URL (if you're hosting the backend on a different server)
--   Save history preference
+-   **Cerebras API Key**: Your personal API key for AI processing
+-   **Default Tone**: Preferred tone for text processing (formal, casual, professional, friendly)
+-   **Default Language**: Language preference for generated content
+-   **Theme**: Choose between light, dark, or system theme
+-   **Save History**: Toggle prompt history saving
 
 ## 📸 Screenshots
 
 ![SmartMate AI in action](https://raw.githubusercontent.com/chirag127/SmartMate-AI/main/screenshots/smartmate-demo.png)
+
+## 🔒 Privacy & Security
+
+-   **No Backend**: Your data never passes through our servers
+-   **Direct API Communication**: All AI requests go directly from your browser to Cerebras API
+-   **Local Storage**: API keys and preferences are stored locally in your browser
+-   **No Data Collection**: We don't collect, store, or analyze your usage data
+-   **Open Source**: Review our code to verify our privacy commitments
 
 ## 🧪 Testing
 
@@ -124,16 +157,41 @@ Run tests with:
 npm test
 ```
 
+## 🛠️ Development
+
+### Build Extension Icons
+
+```bash
+npm run generate-icons
+```
+
+### Run Linter
+
+```bash
+npm run lint
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👥 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 🙏 Acknowledgements
 
--   [Google AI JavaScript SDK](https://github.com/google-gemini/generative-ai-js) for Gemini integration
--   [Express.js](https://expressjs.com/) for the backend framework
--   [MongoDB](https://www.mongodb.com/) for database storage
+-   [Cerebras AI](https://cerebras.ai/) for ultra-fast inference capabilities
+-   The open-source community for browser extension development tools and best practices
+
+## 📚 Additional Resources
+
+-   [Migration Guide](MIGRATION.md) - For users upgrading from the backend-based version
+-   [Privacy Policy](privacy-policy.html)
+-   [Contributing Guidelines](CONTRIBUTING.md)
