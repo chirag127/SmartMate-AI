@@ -1,31 +1,29 @@
-# Agent Guide
+# Agent Instructions for SmartMate AI
 
 ## Commands
 
-**Setup**: `npm install`
+**Initial Setup:**
+```bash
+npm install
+cp backend/.env.example backend/.env  # Edit with your API keys
+```
 
-**Build**: `npm run build`
+**Build:** `npm run build`  
+**Lint:** `npm run lint`  
+**Test:** `npm test`  
+**Dev Server:** `npm run dev`
 
-**Lint**: `npm run lint`
+## Tech Stack & Architecture
 
-**Test**: `npm test`
+- **Frontend:** Manifest V3 browser extension (HTML/CSS/JS), WebExtension APIs, Web Speech API
+- **Backend:** Express.js, MongoDB (optional), Gemini 2.0 Flash Lite via Google AI SDK (direct browser-to-API communication)
+- **Testing:** Jest, Supertest
+- **Storage:** chrome.storage.sync for cross-device synchronization
+- **Structure:** `/backend` (server, API routes, models, middleware, utils), `/extension` (popup, content scripts, background, manifest), `/scripts` (build tools)
 
-**Dev Server**: `npm run dev`
+## Code Style
 
-## Tech Stack
-
-- **Extension**: Manifest V3, HTML/CSS/JS, WebExtension APIs, Web Speech API, Gemini 2.0 Flash Lite via Google AI SDK (direct browser-to-API communication)
-- **Backend**: Express.js, MongoDB (optional), Gemini 2.0 Flash Lite via Google AI SDK
-- **Testing**: Jest, Supertest
-- **Storage**: chrome.storage.sync for cross-device synchronization
-
-## Structure
-
-- `extension/`: Browser extension (popup, content scripts, background, manifest)
-- `backend/`: Express server (routes, controllers, models, middleware, utils)
-- `scripts/`: Build scripts (e.g., icon generation)
-
-## Style
-
-- 2-space indentation, single quotes, semicolons (enforced by ESLint)
-- ES2021 syntax, Unix line endings
+- **ESLint:** 2-space indent, single quotes, semicolons required, unix line breaks
+- ES2021 syntax
+- Follow existing patterns in neighboring files
+- No comments unless complex logic requires explanation
