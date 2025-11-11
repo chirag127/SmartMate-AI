@@ -8,6 +8,9 @@
     "storage",
     "activeTab"
   ],
+  "host_permissions": [
+    "https://api.cerebras.ai/*"
+  ],
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
@@ -45,6 +48,34 @@
         "mac": "Command+Shift+S"
       },
       "description": "Open SmartMate AI popup"
+    },
+    "summarize": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "Summarize selected text"
+    },
+    "rewrite": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+R",
+        "mac": "Command+Shift+R"
+      },
+      "description": "Rewrite selected text"
+    },
+    "explain": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Explain selected text"
+    },
+    "translate": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+T",
+        "mac": "Command+Shift+T"
+      },
+      "description": "Translate selected text"
     }
   },
   "web_accessible_resources": [
@@ -57,6 +88,9 @@
       ]
     }
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://api.cerebras.ai"
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "smartmate-ai@chirag127.github.io",
